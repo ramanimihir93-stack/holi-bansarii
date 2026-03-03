@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Happy Holi Bansarii</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(120deg, #f6d365, #fda085, #a18cd1, #fbc2eb);
+    background-size: 300% 300%;
+    animation: gradientFlow 18s ease infinite;
+    font-family: 'Georgia', serif;
+    overflow:hidden;
+}
+
+@keyframes gradientFlow{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.countdown{
+    position:absolute;
+    top:25px;
+    right:35px;
+    color:white;
+    font-size:16px;
+    letter-spacing:2px;
+    text-align:right;
+    opacity:0.9;
+}
+
+.mihir{
+    position:absolute;
+    bottom:25px;
+    left:35px;
+    font-size:20px;
+    letter-spacing:4px;
+    color:#ffffff;
+    font-weight:bold;
+    opacity:0.85;
+}
+
+.card{
+    background: rgba(255,255,255,0.18);
+    padding:70px 90px;
+    border-radius:20px;
+    backdrop-filter: blur(12px);
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    animation: fadeUp 2s ease;
+    z-index:2;
+    max-width:750px;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+    font-size:60px;
+    color:white;
+    font-weight:normal;
+    letter-spacing:2px;
+}
+
+p{
+    margin-top:25px;
+    font-size:19px;
+    color:white;
+    opacity:0.95;
+    line-height:1.7;
+}
+
+.button-group{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+button{
+    padding:12px 25px;
+    border:1px solid white;
+    background:transparent;
+    color:white;
+    font-size:16px;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+button:hover{
+    background:white;
+    color:#a18cd1;
+}
+
+.pop{
+    position:absolute;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    opacity:0.6;
+    animation: burst 1.5s ease-out forwards;
+}
+
+@keyframes burst{
+    0%{transform:scale(0); opacity:0.8;}
+    100%{transform:scale(25); opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="countdown">
+    Holi Begins In:<br>
+    <span id="timer"></span>
+</div>
+
+<div class="card">
+    <h1>Happy Holi Bansarii</h1>
+
+    <p>
+        Let Krishna's enchanting bansuri melody fill your heart with divine joy,<br>
+        and may every splash of gulal bring endless laughter, love, and colours to your life.<br><br>
+        Throw colours, dance freely, spread happiness — this Holi is magical! 🌸🌀🥳
+    </p>
+
+    <div class="button-group">
+        <button onclick="celebrate()">Celebrate</button>
+        <button id="fluteBtn" onclick="toggleFlute()">🎶</button>
+    </div>
+</div>
+
+<div class="mihir">MIHIRRRRR</div>
+
+<!-- Flute Music -->
+<audio id="fluteSound" loop>
+    <!-- Royalty free soft flute sound -->
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5b03fefcd5.mp3?filename=indian-flute-ambient-110624.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* Countdown */
+function updateCountdown(){
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(now.getDate() + 1);
+    tomorrow.setHours(0,0,0,0);
+
+    const diff = tomorrow - now;
+
+    const hours = Math.floor(diff / (1000*60*60));
+    const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((diff % (1000*60)) / 1000);
+
+    document.getElementById("timer").innerHTML =
+        hours + "h " + minutes + "m " + seconds + "s";
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+
+/* Color Burst */
+function celebrate(){
+    const colors = ["#ff6a88","#42e695","#fbc2eb","#8fd3f4","#f6d365","#a18cd1"];
+
+    for(let i=0;i<25;i++){
+        let splash = document.createElement("div");
+        splash.classList.add("pop");
+        splash.style.background = colors[Math.floor(Math.random()*colors.length)];
+        splash.style.top = Math.random()*100 + "%";
+        splash.style.left = Math.random()*100 + "%";
+        document.body.appendChild(splash);
+
+        setTimeout(()=>{ splash.remove(); },1500);
+    }
+}
+
+/* Toggle Flute Music */
+let isPlaying = false;
+function toggleFlute(){
+    const flute = document.getElementById("fluteSound");
+    const btn = document.getElementById("fluteBtn");
+
+    if(!isPlaying){
+        flute.play();
+        btn.innerHTML = "🔇";
+        isPlaying = true;
+    } else {
+        flute.pause();
+        flute.currentTime = 0;
+        btn.innerHTML = "🎶";
+        isPlaying = false;
+    }
+}
+
+</script>
+
+</body>
+</html>
